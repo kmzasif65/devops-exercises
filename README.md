@@ -1,30 +1,39 @@
-# Kubernetes Exercises & Questions
+# Kubernetes Exercises & Notes
 
 Kubernetes (K8s) is an open-source container orchestration platform for automating deployment, scaling, and management of containerized applications.
 
-## Key Concepts
+## Core Concepts
 
-- **Pod**: The smallest deployable unit created and managed by Kubernetes.
+- **Pod**: The smallest deployable unit in Kubernetes, containing one or more containers.
 - **Service**: An abstract way to expose an application running on a set of Pods as a network service.
 - **Deployment**: Provides declarative updates for Pods and ReplicaSets.
-- **Ingress**: An API object that manages external access to the services in a cluster, typically HTTP.
-- **ConfigMap & Secret**: Objects used to store non-confidential and confidential data in key-value pairs.
+- **Ingress**: Manages external access to services in a cluster (typically HTTP/HTTPS).
+- **ConfigMap & Secret**: Used to store non-confidential and confidential key-value data.
 
-## Exercises
+## Quick kubectl Reference
 
-### 1. Pods & Deployments
-- How do you create a pod using `kubectl` imperatively?
-  - `kubectl run nginx --image=nginx`
-- How do you scale a deployment to 5 replicas?
-  - `kubectl scale deployment/nginx-deployment --replicas=5`
+```bash
+# Get cluster status
+kubectl cluster-info
 
-### 2. Probes & Health Checks
-- What is the difference between `livenessProbe`, `readinessProbe`, and `startupProbe`?
-  - **Liveness probe**: Indicates whether the container is running; if it fails, kubelet kills the container and subjects it to restart policy.
-  - **Readiness probe**: Indicates whether the container is ready to serve network traffic.
-  - **Startup probe**: Disables liveness and readiness checks until the startup probe succeeds, useful for slow-starting containers.
+# List all pods in all namespaces
+kubectl get pods -A
 
-### 3. Troubleshooting
-- How do you inspect events related to a failing pod?
-  - `kubectl describe pod <pod-name>`
-  - `kubectl get events --sort-by='.metadata.creationTimestamp'`
+# View logs for a specific pod
+kubectl logs -f <pod-name>
+
+# Describe pod details and events
+kubectl describe pod <pod-name>
+
+# Apply configuration manifest
+kubectl apply -f manifest.yaml
+
+# Port-forward to local machine
+kubectl port-forward svc/<service-name> 8080:80
+```
+
+## Recommended Ecosystem Tools
+
+- `k9s`: Terminal-based UI for managing Kubernetes clusters.
+- `helm`: Package manager for Kubernetes.
+- `kind` / `minikube`: Local Kubernetes clusters for development.
