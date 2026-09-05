@@ -1,39 +1,24 @@
-# Kubernetes Exercises & Notes
+# Kubernetes
 
-Kubernetes (K8s) is an open-source container orchestration platform for automating deployment, scaling, and management of containerized applications.
+Kubernetes (K8s) is an open-source container orchestration system for automating deployment, scaling, and management of containerized applications.
 
-## Core Concepts
+## Key Concepts
 
-- **Pod**: The smallest deployable unit in Kubernetes, containing one or more containers.
-- **Service**: An abstract way to expose an application running on a set of Pods as a network service.
-- **Deployment**: Provides declarative updates for Pods and ReplicaSets.
-- **Ingress**: Manages external access to services in a cluster (typically HTTP/HTTPS).
-- **ConfigMap & Secret**: Used to store non-confidential and confidential key-value data.
+* **Pod**: The smallest deployable unit in Kubernetes, containing one or more containers sharing network and storage.
+* **Service**: An abstract way to expose an application running on a set of Pods as a network service.
+* **Deployment**: Provides declarative updates for Pods and ReplicaSets.
+* **ConfigMap / Secret**: Objects used to store non-sensitive and sensitive configuration data respectively.
+* **Ingress**: Manages external access to services in a cluster, typically HTTP/HTTPS routing.
 
-## Quick kubectl Reference
+## Container Health Probes
 
-```bash
-# Get cluster status
-kubectl cluster-info
+* **Liveness Probe**: Determines if the container needs to be restarted. If it fails, `kubelet` kills the container and applies its restart policy.
+* **Readiness Probe**: Determines if a container is ready to accept traffic. If it fails, the endpoints controller removes the Pod's IP from matching Services.
+* **Startup Probe**: Indicates whether the application inside the container has started. Disables liveness and readiness checks until startup succeeds, useful for slow-starting legacy workloads.
 
-# List all pods in all namespaces
-kubectl get pods -A
+## Control Plane Components
 
-# View logs for a specific pod
-kubectl logs -f <pod-name>
-
-# Describe pod details and events
-kubectl describe pod <pod-name>
-
-# Apply configuration manifest
-kubectl apply -f manifest.yaml
-
-# Port-forward to local machine
-kubectl port-forward svc/<service-name> 8080:80
-```
-
-## Recommended Ecosystem Tools
-
-- `k9s`: Terminal-based UI for managing Kubernetes clusters.
-- `helm`: Package manager for Kubernetes.
-- `kind` / `minikube`: Local Kubernetes clusters for development.
+* `kube-apiserver`: Core API server exposing the Kubernetes REST API.
+* `etcd`: Consistent and highly-available key-value store for cluster data.
+* `kube-scheduler`: Assigns newly created Pods to optimal nodes.
+* `kube-controller-manager`: Runs controller processes (Node, Replication, Endpoints controllers).
